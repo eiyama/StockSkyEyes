@@ -1,0 +1,10 @@
+
+.content{
+	height: 100vh;
+	background-color: #FFFFFF;
+}
+.status_bar {
+	height: var(--status-bar-height);
+	width: 100%;
+}
+

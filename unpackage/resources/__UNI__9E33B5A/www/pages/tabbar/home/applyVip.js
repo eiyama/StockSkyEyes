@@ -1,0 +1,2 @@
+setCssToHead([".",[1],"content-s { background-color: #202020; min-height: 100vh; }\n.",[1],"title { width: ",[0,236],"; color: #909090; }\n.",[1],"input-vip { background-color: #181818; border-top: 1px solid #808080 !important; }\n.",[1],"applyVip-nput {}\n.",[1],"fontColor-text { color: #808080; }\n",],undefined,{path:"./pages/tabbar/home/applyVip.wxss"})();
+document.dispatchEvent(new CustomEvent("generateFuncReady", { detail: { generateFunc: $gwx('./pages/tabbar/home/applyVip.wxml') } }));

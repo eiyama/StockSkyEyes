@@ -1,0 +1,48 @@
+
+.photo {
+	height: 160rpx;
+}
+.circle {
+	height: 120rpx;
+	width: 120rpx;
+	border-radius: 50%;
+	position: relative;
+	left: 200rpx;
+}
+.from {
+	margin-top: 20rpx;
+}
+.iconfontright {
+	color: #8799a3;
+	position: relative;
+	left: 6rpx;
+}
+.photo-num {
+	margin-right: 20rpx;
+}
+.jiantou {
+	font-size: 36rpx;
+}
+.userName {
+	margin-right: 8rpx;
+}
+.bookfont-size {
+	font-size: 13px;
+}
+.bookfont-color {
+	color: #2fb2da;
+}
+.title-width {
+	width: 90px;
+}
+.form-content {
+	padding: 10rpx;
+}
+.input-l {
+	width: 100%;
+	height: 80rpx;
+	background-color: #FFFFFF;
+	padding-left: 30rpx;
+	border: 1px solid #eee;
+}
+

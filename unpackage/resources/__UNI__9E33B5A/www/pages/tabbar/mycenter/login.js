@@ -1,0 +1,2 @@
+setCssToHead([".",[1],"content { background-color: #E7253A; height: 100vh; padding: ",[0,90],"; padding-top: ",[0,260],"; }\n.",[1],"login-input { border-bottom: 1px solid rgba(255, 255, 255, 0.20) !important; border-top: 0px solid rgba(255, 255, 255, 0.20) !important; }\n",],undefined,{path:"./pages/tabbar/mycenter/login.wxss"})();
+document.dispatchEvent(new CustomEvent("generateFuncReady", { detail: { generateFunc: $gwx('./pages/tabbar/mycenter/login.wxml') } }));

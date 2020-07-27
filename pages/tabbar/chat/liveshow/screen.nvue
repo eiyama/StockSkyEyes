@@ -1,0 +1,133 @@
+<template>
+	<view class="">	
+	<tx-screenview
+	ref="maxTxScreen" 
+	class="maxTxScreen" 
+	pauseImg="pause_publish.jpg"
+	:mute="mute"
+	:url="pushUrl"
+	@statechange="onPlay"
+	:style="{height:windowHeight}"></tx-screenview>
+	
+	<view class="foot">
+		<view class="circleBoxAll">
+			<view class="circleBox" @click="startAll()">
+				<text class="circleIco phone">&#xe626;</text>
+				<text class="hint">开始录屏</text>
+			</view>
+			<view class="circleBox" @click="pauseScreen()">
+				<text class="circleIco phone">&#xe6f9;</text>
+				<text class="hint">暂停录屏</text>
+			</view>
+			<view class="circleBox" @click="resumeScreen()">
+				<text class="circleIco phone">&#xe6aa;</text>
+				<text class="hint">恢复录屏</text>
+			</view>
+		</view>
+	</view>	
+	</view>
+</template>
+
+<script>
+	const trtcPush = uni.requireNativePlugin('tx-push');
+	export default {
+		data() {
+			return {
+				mute:false,
+				windowHeight:0,
+				pushUrl:''
+			}
+		},
+		onLoad(params) {
+		    const pushUrl =	uni.getStorageSync('pushUrl')
+			this.pushUrl = pushUrl;
+			this.windowHeight = uni.getSystemInfoSync().windowHeight;
+			const licenceURL = uni.getStorageSync('licenceURL');
+			const licenceKey = uni.getStorageSync('licenceKey');
+			trtcPush.setLicence({
+				licenceURL:licenceURL,
+				key:licenceKey
+			})
+		},
+		onUnload(){
+			uni.removeStorageSync('pushUrl')
+		},
+		onNavigationBarButtonTap() {
+			this.$refs.maxTxScreen.stopScreen();
+			uni.navigateBack({
+			    delta: 1,
+			    animationType: 'pop-out',
+			    animationDuration: 200
+			});
+		},
+		methods: {
+			startAll(){
+				
+				this.$refs.maxTxScreen.startScreen({"audio":1,"video":1},res=>{
+					console.log(res);
+				});
+			},
+			pauseScreen(){
+				this.$refs.maxTxScreen.pausePusher();
+			},
+			resumeScreen(){
+				this.$refs.maxTxScreen.resumePusher();
+			}
+		}
+	}
+</script>
+
+<style>	
+	.foot{
+		width: 710upx;
+		position: fixed;
+		bottom:0;
+		left: 0;
+		margin:20upx;
+		align-items: center;
+		justify-content: center;
+		flex-direction: row;
+		flex-direction: column;
+	}
+	
+	.circleBoxAll{
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+	}
+	
+	.circleBox{
+		width: 200upx;
+		padding:30upx 0;
+		margin:10upx;
+		align-items: center;
+		flex-direction: column;
+	}
+	
+	.circleIco{
+		font-size:30upx;
+		width:100upx;
+		height:100upx;
+		line-height:100upx;
+		border-radius: 500px;
+		border-style: solid;
+		border-width: 1px; 
+		border-color:#FFFFFF;
+		text-align: center;
+		font-family:iconfont;
+		color: #FFFFFF;
+		font-size:50upx;
+	}
+	.phone{
+		background-color:#c5433a;
+		border-style: solid;
+		border-width: 1px; 
+		border-color:#c5433a;
+	}
+	.hint{
+		font-size:30upx;
+		color: #FF0000;
+		padding-top:20upx;
+	}
+
+</style>

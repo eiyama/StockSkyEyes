@@ -1,0 +1,2 @@
+setCssToHead([".",[1],"status_bar { height: var(--status-bar-height); width: 100%; }\n.",[1],"qiun-charts { width: ",[0,700],"; height: ",[0,330],"; background-color: #e7253a; }\n.",[1],"charts { width: ",[0,700],"; height: ",[0,330],"; background-color: #e7253a; }\n",],undefined,{path:"./pages/tabbar/home/index.wxss"})();
+document.dispatchEvent(new CustomEvent("generateFuncReady", { detail: { generateFunc: $gwx('./pages/tabbar/home/index.wxml') } }));

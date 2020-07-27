@@ -1,0 +1,12 @@
+
+.content {
+	background-color: #E7253A;
+	height: 100vh;
+	padding: 90rpx;
+	padding-top: 260rpx;
+}
+.login-input {
+	border-bottom: 1px solid rgba(255, 255, 255, 0.20) !important;
+	border-top: 0px solid rgba(255, 255, 255, 0.20) !important;
+}
+

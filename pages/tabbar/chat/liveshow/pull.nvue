@@ -1,0 +1,198 @@
+<template>
+	<view class="">
+	
+	<tx-avplayer 
+	ref="maxTxPlayer" 
+	class="maxTxPlayer" 
+	:url="pullUrl"
+	playRotation=1
+	playModel=1
+	@statechange="onPlay"
+	:style="{height:windowHeight}">
+	
+	</tx-avplayer>
+	
+	<view class="tools">
+		<view class="circleBoxAll">
+			<view class="circleBox" @click="menuAction()">
+				<text class="circleIco phone">&#xe626;</text>
+				<text class="hint">菜单操作</text>
+			</view>
+			<view class="circleBox" @click="startPlay()">
+				<text class="circleIco phone">&#xe626;</text>
+				<text class="hint">开始播放</text>
+			</view>
+			<view class="circleBox" @click="stopPlay">
+				<text class="circleIco phone">&#xe6f9;</text>
+				<text class="hint">停止播放</text>
+			</view>
+			<view class="circleBox" @click="resumuPlay()">
+				<text class="circleIco phone">&#xe6aa;</text>
+				<text class="hint">继续播放</text>
+			</view>
+		</view>
+	</view>
+	
+	</view>
+</template>
+
+<script>
+	export default {
+		data() {
+			return {
+				pullUrl:"http://live.stock.bandins.cn/live/liveShow.flv?txSecret=0e0e5e64c46bfe370f91447b642a9f0b&txTime=5E8F1F6F",
+				windowHeight:0,
+			}
+		},
+		onLoad(params) {
+			this.windowHeight = uni.getSystemInfoSync().windowHeight;
+			// this.pullUrl = params.pullUrl;
+			// console.log(this.pullUrl)
+		},
+		
+		onNavigationBarButtonTap() {
+			this.$refs.maxTxPlayer.stopPlay();
+			uni.navigateBack({
+			    delta: 1,
+			    animationType: 'pop-out',
+			    animationDuration: 200
+			});
+		},
+	
+		methods: {
+			onPlay(e){
+				var  result = e.detail
+				console.log(JSON.stringify(result));
+			},
+			onPlay(e){
+				var  result = e.detail
+				console.log(JSON.stringify(result));
+			},
+			startPlay(){
+				this.$refs.maxTxPlayer.startPlay();
+				
+			},
+			stopPlay(){
+				this.$refs.maxTxPlayer.pause();
+				
+			},
+			resumuPlay(){
+				this.$refs.maxTxPlayer.resume();
+			}
+		}
+	}
+</script>
+
+<style>
+
+.foot{
+	width: 710rpx;
+	position: fixed;
+	bottom:0;
+	left: 0;
+	margin:20rpx;
+	align-items: center;
+	justify-content: center;
+	flex-direction: row;
+	flex-direction: column;
+}
+
+.circleBoxAll{
+	// flex-direction: row;
+	justify-content: center;
+	align-items: center;
+}
+.inputBoxAll{
+	flex-direction: row;
+	align-items: center;
+}
+.inputBox{
+	flex-direction: row;
+	margin: 15rpx;
+	padding: 15rpx;
+	background-color: #FFFFFF;
+	border-radius: 6px;
+}
+.inputTitle{
+	height:80rpx;
+	line-height: 80rpx;
+}
+.input{
+	height: 80rpx;
+	width: 340rpx;
+	font-size:30rpx;
+	padding: 15rpx;
+}
+.join{
+	background-color: #DD524D;
+	width: 160rpx;
+	height: 120rpx;
+	line-height: 120rpx;
+	text-align: center;
+	color: #FFFFFF;
+	border-radius: 10px;
+}
+.circleBox{
+	width: 150rpx;
+	padding: 10rpx 0;
+	margin:10rpx;
+	align-items: center;
+	flex-direction: column;
+  text-align: center;
+}
+.circleIco{
+	font-size: 36rpx;
+	width:64rpx;
+	height:64rpx;
+	line-height: 64rpx;
+	border-radius: 500px;
+	border-style: solid;
+	border-width: 1px; 
+	border-color:#FFFFFF;
+	text-align: center;
+	font-family:iconfont;
+	color: #FFFFFF;
+}
+.phone{
+	background-color:#c5433a;
+	border-style: solid;
+	border-width: 1px; 
+	border-color:#c5433a;
+}
+.hint{
+	font-size: 22rpx;
+	color: #FF0000;
+	padding-top: 20rpx;
+}
+
+
+.tools {
+  position: fixed;
+  right: 0;
+  bottom: 100rpx;
+  z-index: 11;
+
+  width: 150rpx;
+}
+
+.foot-content {
+  
+  /* #ifndef APP-PLUS-NVUE */
+  display: flex;
+  /* #endif */
+  flex-direction: column-reverse;
+  
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  
+  height: 500rpx;         // 聊天区最高显示的高度
+  overflow: hidden;
+  
+  padding-top: 20rpx;
+  padding-right: 40rpx;
+  padding-bottom: 20rpx;
+  padding-left: 40rpx;
+}
+</style>

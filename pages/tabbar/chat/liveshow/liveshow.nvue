@@ -1,0 +1,216 @@
+<template>
+	<view class="">	
+	<tx-pushview ref="maxTxPusher" 
+				class="maxTxPusher" 
+				:style="{height:windowHeight}"
+				pauseFps=3
+				pauseTime=15
+				whiteness=9
+				ruddiness=2
+				beauty=9
+				beatyStyle=0
+				pauseImg=""
+				:url="pushUrl"
+				:mute="mute"
+				touchFocus=true
+				enableZoom=true
+				enableAudioPreview=true
+				:frontCamera="frontCamera"
+				filterFileName="yinghong.png"
+				@statechange="onPush"
+	>
+	</tx-pushview>
+	<view class="foot">
+		<view class="circleBoxAll">
+			<view class="circleBox" @click="startAll()">
+				<text class="circleIco phone">&#xe626;</text>
+				<text class="hint">开始推流</text>
+			</view>
+			<view class="circleBox" @click="chooseQuality">
+				<text class="circleIco phone">&#xe6f9;</text>
+				<text class="hint">选择分辨率</text>
+			</view>
+			<view class="circleBox" @click="switchCamera()">
+				<text class="circleIco phone">&#xe6aa;</text>
+				<text class="hint">转换摄像头</text>
+			</view>
+		</view>
+	</view>	
+	</view>
+</template>
+
+<script>
+	const trtcPush = uni.requireNativePlugin('tx-push');
+	export default {
+		data() {
+			return {
+				frontCamera:true,
+				pushUrl:"",
+				windowHeight:0,
+				mute:false,
+				serialNo:''
+			}
+		},
+		onLoad(params) {
+			this.windowHeight = uni.getSystemInfoSync().windowHeight;
+			// if(params.pushUrl){				
+			// 	this.pushUrl = params.pushUrl;
+			// 	console.log('pushUrl',this.pushUrl);
+			// }
+			const pushUrl =	uni.getStorageSync('pushUrl')
+			this.pushUrl = pushUrl;
+		},
+		onReady() {
+			this.play();
+		},
+		onUnload(){
+			uni.removeStorageSync('pushUrl')
+		},
+		onNavigationBarButtonTap() {
+			this.$refs.maxTxPusher.stopPush();
+			uni.navigateBack({
+			    delta: 1,
+			    animationType: 'pop-out',
+			    animationDuration: 200
+			});
+		},
+		
+		methods: {
+			play(){
+				
+				const licenceURL = uni.getStorageSync('licenceURL');
+				const licenceKey = uni.getStorageSync('licenceKey');
+				trtcPush.setLicence({
+					licenceURL:licenceURL,
+					key:licenceKey
+				})				
+				
+			},
+			
+			onPush(e){
+				var result = e.detail;
+				console.log(result);				
+			},
+			switchCamera(){
+				if (this.frontCamera) {
+					this.frontCamera = false;
+				}else {
+					this.frontCamera = true;
+				}
+				
+			},
+			startAll(){
+				this.$refs.maxTxPusher.startPushUrl(res=>{
+					console.log(res);
+				});
+				
+			},
+			
+			chooseQuality(){
+				
+				var me = this;
+				uni.showActionSheet({
+					itemList: ["标清", "高清","超清","开启预览","停止预览","切换闪光灯","截屏"],
+					success(res) {
+						var index = res.tapIndex;
+						if (index == 0 || index == 1 || index == 2) {
+							me.$refs.maxTxPusher.setVideoQuality({
+							   quality:index+1,
+							   adjustBitrate:false,
+							   adjustResolution:false,
+							})
+						}
+											
+						 if (index == 3) {
+							me.$refs.maxTxPusher.startPreview();
+						}else if (index == 4) {
+							me.$refs.maxTxPusher.stopPreview();
+						}else if (index == 5) {
+							me.$refs.maxTxPusher.toggleTorch();
+						}else if (index == 6) {
+							me.$refs.maxTxPusher.snapshot(result=>{
+								console.log(result);
+								// uni.saveFile({
+								// 	tempFilePath:result.path,
+								// 	success:function (res) {
+								// 		console.log(res);
+								// 	},
+								// 	fail:function(err) {
+								// 		console.log(err);
+								// 	}
+								// });
+							})
+						}
+						
+						
+					}
+				})
+				
+				
+			},
+		}
+	}
+</script>
+
+<style>
+	
+.maxTxPusher{
+	width:750upx;
+	background-color:#111111;
+	position: fixed;
+	top: 0;
+	right: 0;
+}
+.foot{
+	width: 710upx;
+	position: fixed;
+	bottom:0;
+	left: 0;
+	margin:20upx;
+	align-items: center;
+	justify-content: center;
+	flex-direction: row;
+	flex-direction: column;
+}
+
+.circleBoxAll{
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+}
+
+.circleBox{
+	width: 200upx;
+	padding:30upx 0;
+	margin:10upx;
+	align-items: center;
+	flex-direction: column;
+}
+
+.circleIco{
+	font-size:30upx;
+	width:100upx;
+	height:100upx;
+	line-height:100upx;
+	border-radius: 500px;
+	border-style: solid;
+	border-width: 1px; 
+	border-color:#FFFFFF;
+	text-align: center;
+	font-family:iconfont;
+	color: #FFFFFF;
+	font-size:50upx;
+}
+.phone{
+	background-color:#c5433a;
+	border-style: solid;
+	border-width: 1px; 
+	border-color:#c5433a;
+}
+.hint{
+	font-size:30upx;
+	color: #FF0000;
+	padding-top:20upx;
+}
+
+</style>

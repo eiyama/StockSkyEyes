@@ -1,0 +1,18 @@
+
+.status_bar {
+	height: var(--status-bar-height);
+	width: 100%;
+}
+
+/*样式的width和height一定要与定义的cWidth和cHeight相对应*/
+.qiun-charts {
+	width: 700rpx;
+	height: 330rpx;
+	background-color: #e7253a;
+}
+.charts {
+	width: 700rpx;
+	height: 330rpx;
+	background-color: #e7253a;
+}
+

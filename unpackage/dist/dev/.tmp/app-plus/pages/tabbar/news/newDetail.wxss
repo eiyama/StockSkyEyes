@@ -1,0 +1,12 @@
+
+.content{
+	background-color: #fff;
+}
+.content-news{
+	padding: 10rpx 40rpx;
+}
+.newTitle{
+	font-size: 36rpx;
+	font-weight: 600;
+}
+

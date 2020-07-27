@@ -1,0 +1,255 @@
+<template>
+	<view class="" @touchmove.stop.prevent="discard">
+	
+	<tx-avplayer 
+	ref="maxTxPlayer" 
+	class="maxTxPlayer" 
+	:url="pullUrl"
+	playRotation=1
+	playModel=0
+	enableZoom=""
+	@statechange="onPlay"
+	:style="{height:windowHeight}">
+	
+	</tx-avplayer>
+	
+	<view class="foot">
+		<view class=" liveBtn">
+			<image style="width:130upx ; height:34upx;margin-left:12upx ;" src="../../../../static/img/txt-check-zhibo.png" mode=""></image>					
+		</view>
+		<view class="flex liveBtn" >
+			<image @click="startPlay()" style="width: 108upx;height: 64upx;margin-right: 30upx;" src="../../../../static/img/btn-txt-bofang.png" mode=""></image>
+			<image @click="closeLive"  style="width: 48upx;height: 48upx;margin-right: 30upx;" src="../../../../static/img/icon-zhibo-stop.png" mode=""></image>			
+		</view>
+		<!-- <text style="color: red;text-align: right;margin-top: 30rpx;margin-right: 20rpx;" @click="closeLive">关闭</text>
+		<view class="circleBox" @click="startPlay()">
+			<text class="hint">开始播放</text>
+		</view> -->
+		<!-- <view class="circleBoxAll">
+			<view class="circleBox" @click="menuAction()">
+				<text class="circleIco phone">&#xe626;</text>
+				<text class="hint">菜单操作</text>
+			</view>
+			<view class="circleBox" @click="startPlay()">
+				<text class="circleIco phone">&#xe626;</text>
+				<text class="hint">开始播放</text>
+			</view>
+			<view class="circleBox" @click="stopPlay">
+				<text class="circleIco phone">&#xe6f9;</text>
+				<text class="hint">停止播放</text>
+			</view>
+			<view class="circleBox" @click="resumuPlay()">
+				<text class="circleIco phone">&#xe6aa;</text>
+				<text class="hint">继续播放</text>
+			</view>
+		</view> -->
+	</view>
+	
+	</view>
+</template>
+
+<script>
+	export default {
+		data() {
+			return {
+				pullUrl:"",
+				windowHeight:"300px",
+			}
+		},
+		// props:{
+		// 	pull:'',
+		// }
+		onLoad(params) {
+			// this.windowHeight = uni.getSystemInfoSync().windowHeight;
+			// this.pullUrl = params.pullUrl;
+			// console.log(this.pullUrl)
+			this.$refs.maxTxPlayer.stopPlay();			
+		},
+		onShow(){
+			uni.$on('pullUrl',(res)=>{				
+				this.pullUrl = res.playUrl;
+			});			 
+			uni.$on('isHiddenLive',(data)=>{
+				console.log(data);
+				if(data.hiddenLive){
+					this.$refs.maxTxPlayer.stopPlay();				
+				}
+			})
+		},
+		onNavigationBarButtonTap() {
+			this.$refs.maxTxPlayer.stopPlay();
+			uni.navigateBack({
+			    delta: 1,
+			    animationType: 'pop-out',
+			    animationDuration: 200
+			});
+		},
+		onUnload(){
+			this.$refs.maxTxPlayer.stopPlay();
+		},
+		methods: {
+			discard() {
+				return;
+			},
+			closeLive(){
+				const self = this;
+				uni.showModal({
+				    content: '确认关闭？',
+					cancelText: '再看看',
+					cancelColor: '#2fb2da',
+					confirmText: '关闭',
+					confirmColor: '#999',
+					success: function(res) {
+						if (res.confirm) {
+							self.$refs.maxTxPlayer.stopPlay();
+							 uni.$emit('pullLive', {  
+							     title: '我是一个title',  
+							     content: '我是data content'  
+							 });
+						}
+					}
+				});
+				
+			},			
+			onPlay(e){
+				var  result = e.detail			
+			},
+			startPlay(){
+				this.$refs.maxTxPlayer.startPlay(res=>{});				
+			},
+			stopPlay(){
+				this.$refs.maxTxPlayer.pause();				
+			},
+			resumuPlay(){
+				this.$refs.maxTxPlayer.resume();
+			}
+		}
+	}
+</script>
+
+<style>
+.maxTxPlayer{
+	width:750upx;
+	height: 100px;
+	background-color:#000000;	
+}
+
+.foot{
+		height: 88rpx;
+		width: 750rpx;
+		position: fixed;
+		right: 0rpx;
+		left: 0rpx;
+		top:400rpx;
+		justify-content: space-between;
+		align-items: center;
+		flex-direction: row;
+		background-color:  #F0F0F0;
+}
+.liveBtn{
+		flex-direction: row;
+		/* justify-items:center; */
+		/* justify-content:space-around ; */
+		align-items: center;			
+		/* background-color: #000000; */
+	}
+	
+.circleBoxAll{
+	// flex-direction: row;
+	justify-content: center;
+	align-items: center;
+}
+.inputBoxAll{
+	flex-direction: row;
+	align-items: center;
+}
+.inputBox{
+	flex-direction: row;
+	margin: 15rpx;
+	padding: 15rpx;
+	background-color: #FFFFFF;
+	border-radius: 6px;
+}
+.inputTitle{
+	height:80rpx;
+	line-height: 80rpx;
+}
+.input{
+	height: 80rpx;
+	width: 340rpx;
+	font-size:30rpx;
+	padding: 15rpx;
+}
+.join{
+	background-color: #DD524D;
+	width: 160rpx;
+	height: 120rpx;
+	line-height: 120rpx;
+	text-align: center;
+	color: #FFFFFF;
+	border-radius: 10px;
+}
+.circleBox{
+	width: 150rpx;
+	padding: 10rpx 0;
+	margin:10rpx;
+	align-items: center;
+	flex-direction: column;
+  text-align: center;
+}
+.circleIco{
+	font-size: 36rpx;
+	width:64rpx;
+	height:64rpx;
+	line-height: 64rpx;
+	border-radius: 500px;
+	border-style: solid;
+	border-width: 1px; 
+	border-color:#FFFFFF;
+	text-align: center;
+	font-family:iconfont;
+	color: #FFFFFF;
+}
+.phone{
+	background-color:#c5433a;
+	border-style: solid;
+	border-width: 1px; 
+	border-color:#c5433a;
+}
+.hint{
+	font-size: 22rpx;
+	color: #FF0000;
+	padding-top: 20rpx;
+}
+
+
+.tools {
+  position: fixed;
+  right: 0;
+  bottom: 100rpx;
+  z-index: 11;
+
+  width: 150rpx;
+}
+
+.foot-content {
+  
+  /* #ifndef APP-PLUS-NVUE */
+  display: flex;
+  /* #endif */
+  flex-direction: column-reverse;
+  
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  
+  height: 500rpx;         // 聊天区最高显示的高度
+  overflow: hidden;
+  
+  padding-top: 20rpx;
+  padding-right: 40rpx;
+  padding-bottom: 20rpx;
+  padding-left: 40rpx;
+}
+</style>

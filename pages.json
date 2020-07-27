@@ -1,0 +1,183 @@
+{
+	"pages": [		
+		//pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/tabbar/home/index",
+			"style": {
+				"navigationBarTitleText": "首页"
+			}
+		},	
+		{
+			    "path" : "pages/tabbar/mycenter/login",
+			    "style" : {}
+		},
+		{
+			"path": "pages/tabbar/chat/newIndex",
+			"style": {
+				"navigationBarTitleText": "聊天室",
+				"navigationBarTextStyle": "black",				
+				"app-plus" : {													
+					    "bounce":"none",						
+						"softinputMode": "adjustResize",
+						"navigationBarTextStyle": "black",						
+						"titleNView": false,  //不启用系统导航
+						"subNVues":[
+							{  
+							"id": "pullLive", // 唯一标识  
+							"path": "pages/tabbar/chat/subNVue/pull", // 页面路径  
+							"style": {  
+							"position":"absolute",
+							"height":"488upx",
+							"right":"0upx",							
+							"top":"152upx",
+							"background":"transparent"							 
+							}
+						  },
+						  {
+						   "id": "popup", // 唯一标识  
+						   "path": "pages/tabbar/chat/subNVue/live", // 页面路径  
+						   "style": {
+						  	"position":"absolute",						
+						  	"height":"488upx",
+						  	"right":"0upx",							
+						  	"top":"152upx",
+						  	"background":"transparent"						 
+						  	 }
+						  }						
+						]
+				}
+			}
+		},		 
+		{
+			"path": "pages/tabbar/news/index",
+			"style": {
+				"navigationBarTitleText": "咨询",
+				"disableScroll": false, // 禁止滚动, 解决scroll-view在Android小程序卡顿的问题
+				"app-plus" : {
+						"bounce" : "none"// 取消iOS回弹,避免和下拉刷新冲突 (小程序无法取消, 点此查看H5端的取消方法... )						
+				}
+			}
+		},
+		{
+			"path": "pages/tabbar/mycenter/index",
+			"style": {
+				"navigationBarTitleText": "我的"			
+			}
+		},
+		{
+			"path": "pages/tabbar/mycenter/about",
+			"style": {
+				"navigationBarTitleText": "关于"			
+			}
+		},
+		{
+		    "path" : "pages/tabbar/news/newDetail",
+		    "style" : {
+				"navigationBarTextStyle": "black"
+			}
+		},{
+		    "path" : "pages/tabbar/mycenter/personalInfo",
+		    "style" : {}
+		},		
+		{
+		    "path" : "pages/tabbar/mycenter/service",
+		    "style" : {	
+				"navigationBarTextStyle": "white"
+			}
+		},
+		{
+		    "path" : "pages/tabbar/home/funds",
+		    "style" : {}
+		},{
+		    "path" : "pages/tabbar/home/stockDetail",
+		    "style" : {
+				"navigationBarTextStyle": "black",
+				"navigationBarBackgroundColor": "#FFFFFF"
+			}
+		},
+		{
+		    "path" : "pages/tabbar/home/applyVip",
+		    "style" : {}
+		},
+		{
+		    "path" : "pages/tabbar/chat/liveshow/liveshow",
+		    "style" : {}
+		},
+		{
+		    "path" : "pages/tabbar/chat/liveshow/liveList",
+		    "style" : {
+				"navigationBarTextStyle": "white"				
+			}
+		},
+		{
+		    "path" : "pages/tabbar/chat/liveshow/pull",
+		    "style" : {}
+		},
+		{
+		    "path" : "pages/tabbar/chat/conversationList",
+		    "style" : {
+				
+			}
+		},		
+		{
+		    "path" : "pages/tabbar/chat/liveshow/screen",
+		    "style" : {
+				"navigationBarTextStyle": "black"				
+			}
+		},		
+		{
+		    "path" : "pages/tabbar/chat/customerService",
+		    "style" : {
+				"navigationBarTextStyle": "black",
+				"app-plus":{
+					"bounce":"none",
+					"softinputMode": "adjustResize"
+					} 
+			}
+		},
+		{
+            "path" : "pages/tabbar/chat/customerRoom",
+            "style" : {
+            	"navigationBarTextStyle": "black",
+				"app-plus":{
+					"bounce":"none",
+					"softinputMode": "adjustResize"
+					} 
+            }
+        }
+     
+    ],
+	"globalStyle": {
+		"navigationStyle": "custom",
+		"navigationBarTextStyle": "white",
+		"navigationBarTitleText": "",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	},
+	"tabBar": {
+		"borderStyle": "black",
+		"backgroundColor": "#f9f9f9",
+		"color": "#8F8F94",
+		"selectedColor": "#e7253a",		
+		"iconWidth":"20px",
+		"midButton":{
+		    "iconPath":"static/img/tabbar/tab-icon-messages.png",		   
+		    "iconWidth":"20px",
+		    "text":"聊天室",			
+			"height":"43px"
+		 },
+		"list": [{
+				"pagePath": "pages/tabbar/home/index",
+				"iconPath": "static/img/tabbar/tab-icon-stock.png",
+				"selectedIconPath": "static/img/tabbar/tab-icon-stock-on.png",
+				"text": "股票"				
+			},
+			{
+				"pagePath": "pages/tabbar/news/index",
+				"iconPath": "static/img/tabbar/tab-icon-infos.png",
+				"selectedIconPath": "static/img/tabbar/tab-icon-infos-on.png",
+				"text": "资讯"
+			}
+		]
+	}
+}

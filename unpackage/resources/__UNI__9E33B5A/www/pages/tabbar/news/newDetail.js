@@ -1,0 +1,2 @@
+setCssToHead([".",[1],"content{ background-color: #fff; }\n.",[1],"content-news{ padding: ",[0,10]," ",[0,40],"; }\n.",[1],"newTitle{ font-size: ",[0,36],"; font-weight: 600; }\n",],undefined,{path:"./pages/tabbar/news/newDetail.wxss"})();
+document.dispatchEvent(new CustomEvent("generateFuncReady", { detail: { generateFunc: $gwx('./pages/tabbar/news/newDetail.wxml') } }));

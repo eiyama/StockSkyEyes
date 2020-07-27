@@ -1,0 +1,2 @@
+setCssToHead([".",[1],"content { height: 100vh; background-color: #e5be6d; }\n",],undefined,{path:"./pages/tabbar/home/funds.wxss"})();
+document.dispatchEvent(new CustomEvent("generateFuncReady", { detail: { generateFunc: $gwx('./pages/tabbar/home/funds.wxml') } }));

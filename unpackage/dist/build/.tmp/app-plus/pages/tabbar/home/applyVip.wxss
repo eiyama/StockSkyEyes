@@ -1,0 +1,18 @@
+
+.content-s {
+	background-color: #202020;
+	min-height: 100vh;
+}
+.title {
+	width: 236rpx;
+	color: #909090;
+}
+.input-vip {
+	background-color: #181818;
+	border-top: 1px solid #808080 !important;
+}
+.applyVip-nput {}
+.fontColor-text {
+	color: #808080;
+}
+

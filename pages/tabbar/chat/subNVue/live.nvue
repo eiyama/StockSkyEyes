@@ -1,0 +1,292 @@
+<template>
+	<view @touchmove.stop.prevent="discard" class="">	
+		<!-- <movable-view direction="all" @scale="onScale" scale="true" scale-min="0.5" scale-max="2" :scale-value="scale">	 -->
+			<tx-pushview ref="maxTxPusher" 
+						class="maxTxPusher" 					
+						pauseFps=3
+						pauseTime=15					
+						whiteness=9
+						ruddiness=2
+						beauty=9
+						beatyStyle=0
+						pauseImg=""
+						:url="pushUrl"
+						:mute="mute"
+						touchFocus=true
+						enableZoom=true
+						enableAudioPreview=true
+						:frontCamera="frontCamera"
+						filterFileName="yinghong.png"
+						@statechange="onPush"
+						:style="minStyle"
+			>
+			</tx-pushview>
+		<!-- </movable-view> -->
+		<view class="foot flex ">			
+				<view class=" liveBtn">					
+					<image v-if="openReady" style="width:130upx ; height:34upx;margin-left:12upx ;" src="../../../../static/img/txt-zhibo-ready.png" mode=""></image>					
+					<image v-else style="width:160upx ; height:34upx;margin-left:12upx ;" src="../../../../static/img/txt-playing.png" mode=""></image>					
+				</view>
+				<view class="flex liveBtn">
+					<image v-if="openReady" @click="startAll()" style="width: 108upx;height: 64upx;margin-right: 30upx;" src="../../../../static/img/btn-start.png" mode=""></image>
+					<image @click="closeLive" style="width: 108upx;height: 64upx;margin-right: 10upx;" src="../../../../static/img/stopLive@3x.png" mode=""></image>
+				</view>
+																	
+			<!-- <text style="color: red;text-align: right;margin-top: 30rpx;margin-right: 20rpx;" @click="closeLive">关闭</text>
+			<view style="" @click="startAll()">				
+				<text class="hint">开始推流</text>
+			</view> -->
+			<!-- <view class="circleBoxAll">
+				<view class="circleBox" @click="startAll()">
+					<text class="circleIco phone">&#xe626;</text>
+					<text class="hint">开始推流</text>
+				</view>
+				<view class="circleBox" @click="chooseQuality">
+					<text class="circleIco phone">&#xe6f9;</text>
+					<text class="hint">选择分辨率</text>
+				</view>
+				<view class="circleBox" @click="switchCamera()">
+					<text class="circleIco phone">&#xe6aa;</text>
+					<text class="hint">转换摄像头</text>
+				</view>
+			</view> -->
+		</view>	
+	</view>
+</template>
+
+<script>
+	const trtcPush = uni.requireNativePlugin('tx-push');
+	export default {
+		data() {
+			return {
+				frontCamera:true,
+				// 推流地址，域名 + 项目名 + 包名 + txSecret='' + txTime(有效时长，)
+				pushUrl:"",
+				windowHeight:0,
+				mute:false,
+				openReady:true
+				// isListen:false,
+			}
+		},
+		onLoad(params) {
+			this.windowHeight = uni.getSystemInfoSync().windowHeight;			
+		},
+		onShow(){
+			var self = this;
+			uni.$on('openPush',(res)=>{
+				this.pushUrl = res.pushUrl;
+				this.openReady = true;	
+			});
+			uni.$on('isHiddenLive',(data)=>{				
+				if(data.hiddenLive){
+					self.$refs.maxTxPusher.stopPush();	
+				}
+			});		
+			// this.searchLiveStatue();	
+		},
+		onReady() {
+			this.play();	
+		},
+		// onUnload(){
+		// 	this.$refs.maxTxPlayer.stopPlay();
+		// },
+		onHide(){
+			this.$refs.maxTxPlayer.stopPlay();
+		},
+		onNavigationBarButtonTap() {
+			this.$refs.maxTxPusher.stopPush();
+			uni.navigateBack({
+			    delta: 1,
+			    animationType: 'pop-out',
+			    animationDuration: 200
+			});
+		},
+		
+		methods: {
+			discard() {
+				return;
+			},
+			// searchLiveStatue(){
+			// 	this.$refs.maxTxPusher.isPublishing()
+			// 	console.log();
+			// },
+			closeLive(){
+				const self = this;
+				uni.showModal({
+				    content: '确认下播？',
+					cancelText: '再看看',
+					cancelColor: '#2fb2da',
+					confirmText: '下播',
+					confirmColor: '#999',
+					success: function(res) {
+						if (res.confirm) {
+							self.$refs.maxTxPusher.stopPush();							
+							 uni.$emit('pushLive', {  
+							     title: '我是一个title',  
+							     content: '我是data content'  
+							 });
+						}
+					}
+				});				
+			},
+			play(){
+				// this.$refs.maxTxPusher.startPreview();
+				// key ，licenceURL 后台传。
+				const licenceURL = uni.getStorageSync('licenceURL');
+				const licenceKey = uni.getStorageSync('licenceKey');
+				trtcPush.setLicence({
+					licenceURL:licenceURL,
+					key:licenceKey
+				})
+				
+			},
+			
+			onPush(e){
+				var result = e.detail;							
+			},
+			switchCamera(){
+				if (this.frontCamera) {
+					this.frontCamera = false;
+				}else {
+					this.frontCamera = true;
+				}
+				
+			},
+			startAll(){
+				this.$refs.maxTxPusher.startPushUrl(res=>{
+					if(res.ret == 0){
+						this.openReady = false;
+						uni.showModal({
+						    content: '开播成功',
+							showCancel:false,
+							confirmText:'我知道了',
+						    success: function (res) {
+						    }
+						});
+					}else{
+						uni.showModal({
+						    content: '网络延迟，错误码' +  res.ret + '请重试',
+							showCancel:false,
+							confirmText:'我知道了',
+						    success: function (res) {
+						    }
+						});
+					}
+					// console.log(res);
+				});
+				
+			},
+			
+			chooseQuality(){				
+				var me = this;
+				uni.showActionSheet({
+					itemList: ["标清", "高清","超清","开启预览","停止预览","切换闪光灯","截屏"],
+					success(res) {
+						var index = res.tapIndex;
+						if (index == 0 || index == 1 || index == 2) {
+							me.$refs.maxTxPusher.setVideoQuality({
+							   quality:index+1,
+							   adjustBitrate:false,
+							   adjustResolution:false,
+							})
+						}											
+						 if (index == 3) {
+							me.$refs.maxTxPusher.startPreview();
+						}else if (index == 4) {
+							me.$refs.maxTxPusher.stopPreview();
+						}else if (index == 5) {
+							me.$refs.maxTxPusher.toggleTorch();
+						}else if (index == 6) {
+							me.$refs.maxTxPusher.snapshot(result=>{
+								// console.log(result);
+								// uni.saveFile({
+								// 	tempFilePath:result.path,
+								// 	success:function (res) {
+								// 		console.log(res);
+								// 	},
+								// 	fail:function(err) {
+								// 		console.log(err);
+								// 	}
+								// });
+							})
+						}												
+					}
+				})
+				
+				
+			},
+		}
+	}
+</script>
+
+<style>
+	
+.maxTxPusher{
+	width:750upx;
+	height:400upx;
+	position: fixed;
+	background-color:#000000;
+}
+.foot{
+		height: 88upx;
+		width: 750upx;
+		position: fixed;
+		right: 0upx;
+		left: 0upx;
+		top:380upx;
+		justify-content: space-between;
+		align-items: center;
+		flex-direction: row;
+		background-color:  #F0F0F0;
+}
+.liveBtn{
+		flex-direction: row;
+		/* justify-items:center; */
+		/* justify-content:space-around ; */
+		align-items: center;			
+		/* background-color: #000000; */
+	}
+	
+
+.circleBoxAll{
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+}
+
+.circleBox{
+	width: 200upx;
+	padding:30upx 0;
+	margin:10upx;
+	align-items: center;
+	flex-direction: column;
+}
+
+.circleIco{
+	font-size:30upx;
+	width:100upx;
+	height:100upx;
+	line-height:100upx;
+	border-radius: 500px;
+	border-style: solid;
+	border-width: 1px; 
+	border-color:#FFFFFF;
+	text-align: center;
+	font-family:iconfont;
+	color: #FFFFFF;
+	font-size:50upx;
+}
+.phone{
+	background-color:#c5433a;
+	border-style: solid;
+	border-width: 1px; 
+	border-color:#c5433a;
+}
+.hint{
+	font-size:30upx;
+	color: #FF0000;
+	/* padding-top:20upx; */
+}
+
+
+</style>
